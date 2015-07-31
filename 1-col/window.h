@@ -1,4 +1,5 @@
 #include <SDL.h>
+#include "board.h"
 
 class Window {
 	
@@ -29,5 +30,6 @@ class Window {
 	bool loadMedia();
 	//close and free memory
 	void close();
+	void draw();
 	void eventClick();
 };

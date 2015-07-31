@@ -18,7 +18,7 @@ int main(int argc, char* args[]) {
 		SDL_Event e;
 
 		while (!quit) {
-			while (SDL_PollEvent(&e) != 0) {
+			while (SDL_PollEvent(&e) != 0) {       
 				if (e.type == SDL_QUIT) {
 					quit = true;
 				}
@@ -39,6 +39,9 @@ int main(int argc, char* args[]) {
 			SDL_RenderPresent(window.gRenderer);
 			//Update the surface
 			//SDL_UpdateWindowSurface(gWindow);
+
+			int x = 10;
+			vector<int>
 		}
 	}
 	

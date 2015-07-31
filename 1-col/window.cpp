@@ -3,6 +3,7 @@
 #include <stdio.h>
 
 #include "window.h"
+#include "tile.h"
 
 
 // using namespace std;
@@ -71,6 +72,23 @@ void Window::close() {
 
 	//Quit SDL subsystems
 	SDL_Quit();
+}
+
+void Window::draw(Tile tiles_to_draw[]) {
+	Tile current_tile;
+	tiles_to_draw[0];
+	for(int i=0; i<Board::tile_array_size; i++) {
+		current_tile = tiles_to_draw[i];
+		SDL_Rect draw_rect = {current_tile.pos->x, current_tile.pos->y, current_tile.width, current_tile.height};
+
+	}
+}
+
+void Window::findTileInFocus(Tile * tile_array, int array_size) {
+	int x, y;
+	SDL_GetMouseState(&x, &y);
+	// maintain array of considered elements
+	while ( // binary divide array until only one element is left
 }
 
 void Window::eventClick() {

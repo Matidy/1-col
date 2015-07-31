@@ -7,4 +7,10 @@ Tile::Tile() {
 }
 
 Tile::~Tile() {
+
+}
+
+void Tile::initPosition(int x, int y) { // initialize a struct Position with x & y.
+	pos->x = x;
+	pos->y = y;
 }
