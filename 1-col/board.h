@@ -1,6 +1,6 @@
 #include "tile.h"
 #include <SDL.h>
-//#include<vector>
+#include <vector>
 
 class Board {
 
@@ -16,10 +16,10 @@ class Board {
 	~Board(void);
 
 	void update();
-	Tile findMouseTile();
 	Tile getTile(int row, int col);
 
   private:
-	Tile * tiles_array;
+	//Tile * tiles_array;
+	std::vector<Tile> board_tiles;
 };
 

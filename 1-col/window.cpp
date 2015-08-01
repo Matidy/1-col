@@ -74,7 +74,7 @@ void Window::close() {
 	SDL_Quit();
 }
 
-void Window::draw(Tile tiles_to_draw[]) {
+void Window::draw(std::vector<Tile> tiles_to_draw) {
 	Tile current_tile;
 	tiles_to_draw[0];
 	for(int i=0; i<Board::tile_array_size; i++) {
@@ -84,11 +84,14 @@ void Window::draw(Tile tiles_to_draw[]) {
 	}
 }
 
-void Window::findTileInFocus(Tile * tile_array, int array_size) {
+void Window::findTileInFocus(std::vector<Tile> board_tiles, int array_size) {
 	int x, y;
 	SDL_GetMouseState(&x, &y);
 	// maintain array of considered elements
-	while ( // binary divide array until only one element is left
+	while (board_tiles.size() != 1) { // binary divide array until only one element is left
+
+	}
+		// vector.erase(first, last)
 }
 
 void Window::eventClick() {

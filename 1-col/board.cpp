@@ -7,15 +7,16 @@ Board::Board(void) {
 }
 
 int Board::init() {
-	tiles_array = new Tile [tile_array_size]; // remember to deallocate when each game ends/board reset
+	//tiles_array = new Tile [tile_array_size]; // remember to deallocate when each game ends/board reset
 
 	int x = 0;
 	int y = 0;
 	Tile current_tile;
+	board_tiles.resize(tile_array_size);
 
 	// init tile array with positions etc.
 	for(int i=0; i <tile_array_size; i++) { // could look at previous tile width/height to update to handle tiles of different sizes
-		current_tile = tiles_array[i];
+		current_tile = board_tiles[i];
 		current_tile.initPosition(x, y);
 		x += current_tile.width;
 		if (i%hori_tiles == 0 && i!=0) {
@@ -36,5 +37,5 @@ Tile Board::findMouseTile() {
 }
 
 Tile Board::getTile(int row, int col) {
-	return tiles_array[row*hori_tiles+col];
+	return board_tiles[row*hori_tiles+col];
 }
