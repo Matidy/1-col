@@ -54,7 +54,7 @@ bool Window::loadMedia()
     //Loading success flag
     bool success = true;
 
-    //Load splash image
+    //Load image
     gImage = SDL_LoadBMP("Resource/city_night.bmp");
     if(gImage == NULL)
     {
@@ -76,15 +76,32 @@ void Window::close() {
 
 void Window::draw(std::vector<Tile> tiles_to_draw) {
 	Tile current_tile;
-	tiles_to_draw[0];
-	for(int i=0; i<Board::tile_array_size; i++) {
+	for(unsigned int i=0; i<tiles_to_draw.size(); i++) {
 		current_tile = tiles_to_draw[i];
-		SDL_Rect draw_rect = {current_tile.pos->x, current_tile.pos->y, current_tile.width, current_tile.height};
-
+		SDL_Rect draw_rect = {current_tile.pos.x, current_tile.pos.y, current_tile.width, current_tile.height};
+		setDrawColour(current_tile);
+		SDL_RenderFillRect(gRenderer, &draw_rect);
 	}
 }
 
-void Window::findTileInFocus(std::vector<Tile> board_tiles, int array_size) {
+void Window::setDrawColour(Tile tile) {
+	switch(tile.owner) {
+		case Tile::YELLOW:    SDL_SetRenderDrawColor(gRenderer, 0xFF, 0xAD, 0x33, 0xFF);
+							  break;
+		case Tile::BLUE:	  SDL_SetRenderDrawColor(gRenderer, 0x33, 0x85, 0xFF, 0xFF);
+							  break;
+		case Tile::NEUTRAL:   SDL_SetRenderDrawColor(gRenderer, 0xFF, 0x00, 0xFF, 0xFF);
+							  //SDL_SetRenderDrawColor(gRenderer, 0x52, 0x52, 0x7A, 0xFF);
+							  break;
+		case Tile::UNOWNABLE: SDL_SetRenderDrawColor(gRenderer, 0x33, 0x33, 0x4C, 0xFF);
+							  break;
+	}
+}
+
+//void Window::drawHighlight() {
+//}
+
+/*void Window::findTileInFocus(std::vector<Tile> board_tiles, int array_size) {
 	int x, y;
 	SDL_GetMouseState(&x, &y);
 	// maintain array of considered elements
@@ -92,12 +109,13 @@ void Window::findTileInFocus(std::vector<Tile> board_tiles, int array_size) {
 
 	}
 		// vector.erase(first, last)
-}
+}*/
 
 void Window::eventClick() {
 	int x, y;
 	SDL_GetMouseState(&x, &y);
 
+	printf("Click at: %d, %d\n", x, y);
 	SDL_SetRenderDrawColor(gRenderer, 0xFF, 0x00, 0xFF, 0xFF);
 	// init struct SDL_Rect by giving an array. Sets members in the order they are delcared with corresponding array elements.
 	SDL_Rect rect1 = {x-30, y-30, 60, 60};

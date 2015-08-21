@@ -16,14 +16,13 @@ class Tile {
 
 	int width;
 	int height;
-	struct Position * pos;
+	struct Position pos;
+	Owner owner;
 
 	Tile();
 	~Tile();
 
 	void initPosition(int x, int y);
-	void draw();
-	bool containsMouse();
 	void leftClick();
 	void rightClick();
 

@@ -30,6 +30,8 @@ class Window {
 	bool loadMedia();
 	//close and free memory
 	void close();
-	void draw();
+	void draw(std::vector<Tile> tiles_to_draw);
+	void setDrawColour(Tile tile);
+	void findTileInFocus();
 	void eventClick();
 };

@@ -14,10 +14,13 @@ int Board::init() {
 	Tile current_tile;
 	board_tiles.resize(tile_array_size);
 
+	////////////////////////////////////////////
 	// init tile array with positions etc.
-	for(int i=0; i <tile_array_size; i++) { // could look at previous tile width/height to update to handle tiles of different sizes
+	//////////////////////////////////////
+	for(int i=0; i <tile_array_size; i++) { // could look at previous tile width/height when incrementing to handle tiles of different sizes
 		current_tile = board_tiles[i];
-		current_tile.initPosition(x, y);
+		board_tiles[i].initPosition(x, y);
+		printf("After: x=%d, y=%d\n", current_tile.pos.x, current_tile.pos.y);
 		x += current_tile.width;
 		if (i%hori_tiles == 0 && i!=0) {
 			x = 0;
@@ -29,11 +32,6 @@ int Board::init() {
 }
 
 Board::~Board(void) {
-}
-
-Tile Board::findMouseTile() {
-	Tile tile;
-	return tile;
 }
 
 Tile Board::getTile(int row, int col) {

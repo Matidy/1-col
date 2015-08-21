@@ -18,8 +18,5 @@ class Board {
 	void update();
 	Tile getTile(int row, int col);
 
-  private:
-	//Tile * tiles_array;
 	std::vector<Tile> board_tiles;
 };
-
