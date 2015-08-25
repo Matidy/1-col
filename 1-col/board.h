@@ -5,10 +5,12 @@
 class Board {
 
   public:
-	Tile * tileInFocus;
-	Tile * prevTileInFocus;
-	int hori_tiles;
-	int vert_tiles;
+	Tile tileInFocus;
+	Tile prevTileInFocus;
+
+	static const int hori_tiles = 10;
+	static const int vert_tiles = 8;
+
 	int tile_array_size;
 
 	Board(void);
@@ -19,4 +21,6 @@ class Board {
 	Tile getTile(int row, int col);
 
 	std::vector<Tile> board_tiles;
+
+	Tile findTileInFocus(std::vector<Tile> board_tiles) ;
 };

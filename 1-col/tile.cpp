@@ -2,8 +2,8 @@
 
 Tile::Tile() {
 	owner = NEUTRAL;
-	width = 64;
-	height = 64;
+	width = base_width;
+	height = base_height;
 }
 
 Tile::~Tile() {

@@ -1,5 +1,6 @@
 #include <SDL.h>
 #include "board.h"
+#include "ValRGBA.h"
 
 class Window {
 	
@@ -15,7 +16,7 @@ class Window {
 
 	//Window dimension constant
 	static const int WINDOW_WIDTH = 640;
-	static const int WINDOW_HEIGHT = 480;
+	static const int WINDOW_HEIGHT = 64*8;
 
 	static const int MOUSE_EVENT = 1026;
 	//////////////////////////////////
@@ -30,8 +31,10 @@ class Window {
 	bool loadMedia();
 	//close and free memory
 	void close();
+
 	void draw(std::vector<Tile> tiles_to_draw);
 	void setDrawColour(Tile tile);
-	void findTileInFocus();
+	void setDrawColour(Tile tile, struct ValRGBA colour_offset);
+	void findTileInFocus(std::vector<Tile> board_tiles);
 	void eventClick();
 };

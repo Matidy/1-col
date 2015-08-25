@@ -13,6 +13,7 @@
   <ItemGroup>
     <ClInclude Include="board.h" />
     <ClInclude Include="tile.h" />
+    <ClInclude Include="ValRGBA.h" />
     <ClInclude Include="window.h" />
   </ItemGroup>
   <ItemGroup>

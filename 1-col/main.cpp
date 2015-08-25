@@ -19,9 +19,9 @@ int main(int argc, char* args[]) {
 		}
 
 		else {
-
 			// Draw initial board state to screen
 			window.draw(board.board_tiles);
+
 			//////////////////
 			//Event Loop
 			////////////
@@ -29,6 +29,12 @@ int main(int argc, char* args[]) {
 			SDL_Event e;
 		
 			while (!quit) {
+				//board.tileInFocus = board.findTileInFocus(board.board_tiles);
+				if (board.tileInFocus.ID != board.prevTileInFocus.ID) {
+					board.prevTileInFocus = board.tileInFocus;
+					// Draw Clean up/Draw new highlight
+					// Handle mouse outside screen/no tile highlighted state
+				}
 				while (SDL_PollEvent(&e) != 0) {       
 					if (e.type == SDL_QUIT) {
 						quit = true;

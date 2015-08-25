@@ -14,6 +14,10 @@ class Tile {
 		UNOWNABLE
 	};
 
+	static const int base_width = 64;
+	static const int base_height = 64;
+
+	int ID;
 	int width;
 	int height;
 	struct Position pos;
