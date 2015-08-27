@@ -15,7 +15,7 @@ class Window {
 	SDL_Renderer* gRenderer;
 
 	//Window dimension constant
-	static const int WINDOW_WIDTH = 640;
+	static const int WINDOW_WIDTH = 64*10;
 	static const int WINDOW_HEIGHT = 64*8;
 
 	static const int MOUSE_EVENT = 1026;
@@ -35,6 +35,8 @@ class Window {
 	void draw(std::vector<Tile> tiles_to_draw);
 	void setDrawColour(Tile tile);
 	void setDrawColour(Tile tile, struct ValRGBA colour_offset);
+	void drawHighlight(Tile TileInFocus);
+	void drawUnhighlight(Tile prevTileInFocus);
 	void findTileInFocus(std::vector<Tile> board_tiles);
 	void eventClick();
 };

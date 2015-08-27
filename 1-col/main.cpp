@@ -29,11 +29,16 @@ int main(int argc, char* args[]) {
 			SDL_Event e;
 		
 			while (!quit) {
-				//board.tileInFocus = board.findTileInFocus(board.board_tiles);
+				// highlight moused over tile
+				board.tileInFocus = board.findTileInFocus(board.board_tiles);
 				if (board.tileInFocus.ID != board.prevTileInFocus.ID) {
+					if (board.prevTileInFocus.ID != NULL) {
+						window.drawUnhighlight(board.prevTileInFocus);
+					}
+					if(board.tileInFocus.ID != NULL) {
+						window.drawHighlight(board.tileInFocus);
+					}
 					board.prevTileInFocus = board.tileInFocus;
-					// Draw Clean up/Draw new highlight
-					// Handle mouse outside screen/no tile highlighted state
 				}
 				while (SDL_PollEvent(&e) != 0) {       
 					if (e.type == SDL_QUIT) {
@@ -47,7 +52,6 @@ int main(int argc, char* args[]) {
 							printf("Left Click\n");
 							window.eventClick();
 						}
-
 					}
 				}
 				//Apply Image to window's surface

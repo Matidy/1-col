@@ -12,6 +12,8 @@ class Board {
 	static const int vert_tiles = 8;
 
 	int tile_array_size;
+	int board_width;
+	int board_height;
 
 	Board(void);
 	int init();

@@ -133,16 +133,33 @@ void Window::setDrawColour(Tile tile, struct ValRGBA colour_offset) {
 	}
 }
 
-//void Window::drawHighlight() {
-//}
+// Duplicated a lot of code in draw method, could rework draw to include highlight draw as a case
+void Window::drawHighlight(Tile tileInFocus) {
+	SDL_Rect highlight_rect = {tileInFocus.pos.x,
+							   tileInFocus.pos.y, 
+							   tileInFocus.width, 
+							   tileInFocus.height};
+	ValRGBA highlight_offset = {0x00, 0x10, 0x30, 0xFF};
+	setDrawColour(tileInFocus, highlight_offset);
+	SDL_RenderFillRect(gRenderer, &highlight_rect);
+}
+
+void Window::drawUnhighlight(Tile prevTileInFocus) {
+	SDL_Rect unhighlight_rect = {prevTileInFocus.pos.x,
+								 prevTileInFocus.pos.y, 
+								 prevTileInFocus.width, 
+								 prevTileInFocus.height};
+	setDrawColour(prevTileInFocus);
+	SDL_RenderFillRect(gRenderer, &unhighlight_rect);
+}
 
 void Window::eventClick() {
 	int x, y;
 	SDL_GetMouseState(&x, &y);
 
 	printf("Click at: %d, %d\n", x, y);
-	SDL_SetRenderDrawColor(gRenderer, 0xFF, 0x00, 0xFF, 0xFF);
+	/*SDL_SetRenderDrawColor(gRenderer, 0xFF, 0x00, 0xFF, 0xFF);
 	// init struct SDL_Rect by giving an array. Sets members in the order they are delcared with corresponding array elements.
 	SDL_Rect rect1 = {x-30, y-30, 60, 60};
-	SDL_RenderFillRect(gRenderer, &rect1);
+	SDL_RenderFillRect(gRenderer, &rect1);*/
 }
