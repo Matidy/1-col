@@ -1,4 +1,4 @@
-#pragma once
+#include "ValRGBA.h"
 
 class Tile {
 
@@ -27,7 +27,6 @@ class Tile {
 	~Tile();
 
 	void initPosition(int x, int y);
-	void leftClick();
-	void rightClick();
+	ValRGBA getColour();
 
 };

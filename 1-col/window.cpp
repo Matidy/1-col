@@ -74,83 +74,44 @@ void Window::close() {
 	SDL_Quit();
 }
 
-void Window::draw(std::vector<Tile> tiles_to_draw) {
+void Window::draw(std::vector<Tile> tiles_to_draw, int col_percent_offset) { //col updated to percent, update methods (don't like having to provide dummy 0 for base draw)
 	Tile current_tile;
+	ValRGBA tile_colour;
+	int rim_offset;
 	for(unsigned int i=0; i<tiles_to_draw.size(); i++) {
 		current_tile = tiles_to_draw[i];
 		SDL_Rect draw_rect = {current_tile.pos.x, current_tile.pos.y, current_tile.width, current_tile.height};
-		setDrawColour(current_tile);
+		tile_colour = shiftShade(current_tile.getColour(), col_percent_offset);
+		SDL_SetRenderDrawColor(gRenderer, tile_colour.r, tile_colour.g, tile_colour.b, tile_colour.a);
 		SDL_RenderFillRect(gRenderer, &draw_rect); //Tile Fill
-		struct ValRGBA colour_offset = {0x00, -0x10, -0x30, 0x00};
-		setDrawColour(current_tile, colour_offset);
+		rim_offset = -10;
+		tile_colour = shiftShade(tile_colour, rim_offset);
+		SDL_SetRenderDrawColor(gRenderer, tile_colour.r, tile_colour.g, tile_colour.b, tile_colour.a);
 		SDL_RenderDrawRect(gRenderer, &draw_rect); //Tile Outline
 	}
 }
 
-void Window::setDrawColour(Tile tile) {
-	switch(tile.owner) {
-		case Tile::YELLOW:    SDL_SetRenderDrawColor(gRenderer, 0xFF, 0xAD, 0x33, 0xFF);
-							  break;
-		case Tile::BLUE:	  SDL_SetRenderDrawColor(gRenderer, 0x33, 0x85, 0xFF, 0xFF);
-							  break;
-		case Tile::NEUTRAL:   SDL_SetRenderDrawColor(gRenderer, 0x52, 0x52, 0x52, 0xFF);
-							  break;
-		case Tile::UNOWNABLE: SDL_SetRenderDrawColor(gRenderer, 0x33, 0x33, 0x33, 0xFF);
-							  break;
-	}
-}
-
-// Allows specifiying an offset from the base tile colours. Currently a poor implmentations as it assumes RGB values
-// change uniformly for an offset. Counter example, values cannot increase/decrease above FF and below 00 and no reason
-// all RGB values will be at these caps at the same time.
-void Window::setDrawColour(Tile tile, struct ValRGBA colour_offset) {
-	struct ValRGBA draw_colour;
-	switch(tile.owner) {
-		case Tile::YELLOW:		draw_colour.r = 0xEE + colour_offset.r;
-								draw_colour.g = 0xAD + colour_offset.g;
-								draw_colour.b =	0x33 + colour_offset.b;
-								draw_colour.a = 0xFF + colour_offset.a;
-								SDL_SetRenderDrawColor(gRenderer, draw_colour.r, draw_colour.g, draw_colour.b, draw_colour.a);
-								break;
-		case Tile::BLUE:		draw_colour.r = 0x33 + colour_offset.r;
-								draw_colour.g = 0x85 + colour_offset.g;
-								draw_colour.b = 0xEE + colour_offset.b;
-								draw_colour.a = 0xFF + colour_offset.a;
-								SDL_SetRenderDrawColor(gRenderer, draw_colour.r, draw_colour.g, draw_colour.b, draw_colour.a);
-								break;
-		case Tile::NEUTRAL:		draw_colour.r = 0x52 + colour_offset.r;
-								draw_colour.g = 0x52 + colour_offset.g;
-								draw_colour.b = 0x52 + colour_offset.b;
-								draw_colour.a = 0xFF + colour_offset.a;
-								SDL_SetRenderDrawColor(gRenderer, draw_colour.r, draw_colour.g, draw_colour.b, draw_colour.a);
-								break;
-		case Tile::UNOWNABLE:	draw_colour.r = 0x33 + colour_offset.r;
-								draw_colour.g = 0x33 + colour_offset.g;
-								draw_colour.b = 0x33 + colour_offset.b;
-								draw_colour.a = 0xFF + colour_offset.a;
-								SDL_SetRenderDrawColor(gRenderer, draw_colour.r, draw_colour.g, draw_colour.b, draw_colour.a);
-								break;
-	}
+ValRGBA Window::shiftShade(ValRGBA colour, int col_percent_offset) {
+	colour.r = colour.r*(100 + col_percent_offset)/100;
+	colour.g = colour.g*(100 + col_percent_offset)/100;
+	colour.b = colour.b*(100 + col_percent_offset)/100;
+	colour.a = 0xFF;
+	return colour;
 }
 
 // Duplicated a lot of code in draw method, could rework draw to include highlight draw as a case
 void Window::drawHighlight(Tile tileInFocus) {
-	SDL_Rect highlight_rect = {tileInFocus.pos.x,
-							   tileInFocus.pos.y, 
-							   tileInFocus.width, 
-							   tileInFocus.height};
-	ValRGBA highlight_offset = {0x00, 0x10, 0x30, 0xFF};
-	setDrawColour(tileInFocus, highlight_offset);
-	SDL_RenderFillRect(gRenderer, &highlight_rect);
+	std::vector<Tile> dummy_vector; //wrapper for tile as draw expects a vector
+	dummy_vector.resize(1);
+	dummy_vector[0] = tileInFocus;
+	draw(dummy_vector, 15);
 }
 
 void Window::drawUnhighlight(Tile prevTileInFocus) {
-	SDL_Rect unhighlight_rect = {prevTileInFocus.pos.x,
-								 prevTileInFocus.pos.y, 
-								 prevTileInFocus.width, 
-								 prevTileInFocus.height};
-	setDrawColour(prevTileInFocus);
-	SDL_RenderFillRect(gRenderer, &unhighlight_rect);
+	std::vector<Tile> dummy_vector; //wrapper for tile as draw expects a vector
+	dummy_vector.resize(1);
+	dummy_vector[0] = prevTileInFocus;
+	draw(dummy_vector, 0);
 }
 
 void Window::eventClick() {

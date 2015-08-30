@@ -20,7 +20,7 @@ int main(int argc, char* args[]) {
 
 		else {
 			// Draw initial board state to screen
-			window.draw(board.board_tiles);
+			window.draw(board.board_tiles, 0);
 
 			//////////////////
 			//Event Loop
