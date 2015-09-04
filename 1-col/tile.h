@@ -28,5 +28,4 @@ class Tile {
 
 	void initPosition(int x, int y);
 	ValRGBA getColour();
-
 };

@@ -1,6 +1,5 @@
-#include <SDL.h>
-#include "board.h"
-#include "ValRGBA.h"
+#include "GameController.h"
+#include <stdio.h>
 
 class Window {
 	
@@ -33,9 +32,9 @@ class Window {
 	void close();
 
 	void draw(std::vector<Tile> tiles_to_draw, int col_percent_offset);
+	void draw(Tile tile_to_draw, int col_percent_offset);
 	ValRGBA shiftShade(ValRGBA colour, int col_percent_offset);
 	void drawHighlight(Tile TileInFocus);
 	void drawUnhighlight(Tile prevTileInFocus);
 	void findTileInFocus(std::vector<Tile> board_tiles);
-	void eventClick();
 };

@@ -1,7 +1,5 @@
 //Using SDL and standard IO
 //#include <SDL.h>
-#include <stdio.h>
-
 #include "window.h"
 
 
@@ -77,18 +75,31 @@ void Window::close() {
 void Window::draw(std::vector<Tile> tiles_to_draw, int col_percent_offset) { //col updated to percent, update methods (don't like having to provide dummy 0 for base draw)
 	Tile current_tile;
 	ValRGBA tile_colour;
-	int rim_offset;
+	int rim_offset = -10;
+
 	for(unsigned int i=0; i<tiles_to_draw.size(); i++) {
 		current_tile = tiles_to_draw[i];
 		SDL_Rect draw_rect = {current_tile.pos.x, current_tile.pos.y, current_tile.width, current_tile.height};
 		tile_colour = shiftShade(current_tile.getColour(), col_percent_offset);
 		SDL_SetRenderDrawColor(gRenderer, tile_colour.r, tile_colour.g, tile_colour.b, tile_colour.a);
 		SDL_RenderFillRect(gRenderer, &draw_rect); //Tile Fill
-		rim_offset = -10;
 		tile_colour = shiftShade(tile_colour, rim_offset);
 		SDL_SetRenderDrawColor(gRenderer, tile_colour.r, tile_colour.g, tile_colour.b, tile_colour.a);
 		SDL_RenderDrawRect(gRenderer, &draw_rect); //Tile Outline
 	}
+}
+
+void Window::draw(Tile tile_to_draw, int col_percent_offset) {
+	ValRGBA tile_colour;
+	int rim_offset = -10;
+
+	SDL_Rect draw_rect = {tile_to_draw.pos.x, tile_to_draw.pos.y, tile_to_draw.width, tile_to_draw.height};
+	tile_colour = shiftShade(tile_to_draw.getColour(), col_percent_offset);
+	SDL_SetRenderDrawColor(gRenderer, tile_colour.r, tile_colour.g, tile_colour.b, tile_colour.a);
+	SDL_RenderFillRect(gRenderer, &draw_rect); //Tile Fill
+	tile_colour = shiftShade(tile_colour, rim_offset);
+	SDL_SetRenderDrawColor(gRenderer, tile_colour.r, tile_colour.g, tile_colour.b, tile_colour.a);
+	SDL_RenderDrawRect(gRenderer, &draw_rect); //Tile Outline
 }
 
 ValRGBA Window::shiftShade(ValRGBA colour, int col_percent_offset) {
@@ -101,26 +112,9 @@ ValRGBA Window::shiftShade(ValRGBA colour, int col_percent_offset) {
 
 // Duplicated a lot of code in draw method, could rework draw to include highlight draw as a case
 void Window::drawHighlight(Tile tileInFocus) {
-	std::vector<Tile> dummy_vector; //wrapper for tile as draw expects a vector
-	dummy_vector.resize(1);
-	dummy_vector[0] = tileInFocus;
-	draw(dummy_vector, 15);
+	draw(tileInFocus, 15);
 }
 
 void Window::drawUnhighlight(Tile prevTileInFocus) {
-	std::vector<Tile> dummy_vector; //wrapper for tile as draw expects a vector
-	dummy_vector.resize(1);
-	dummy_vector[0] = prevTileInFocus;
-	draw(dummy_vector, 0);
-}
-
-void Window::eventClick() {
-	int x, y;
-	SDL_GetMouseState(&x, &y);
-
-	printf("Click at: %d, %d\n", x, y);
-	/*SDL_SetRenderDrawColor(gRenderer, 0xFF, 0x00, 0xFF, 0xFF);
-	// init struct SDL_Rect by giving an array. Sets members in the order they are delcared with corresponding array elements.
-	SDL_Rect rect1 = {x-30, y-30, 60, 60};
-	SDL_RenderFillRect(gRenderer, &rect1);*/
+	draw(prevTileInFocus, 0);
 }
