@@ -33,7 +33,9 @@ int main(int argc, char* args[]) {
 				int pos_x, pos_y;
 		
 				while (!quit) {
-					// highlight moused over tile
+					///////////////////////////////////////////////
+					// Highlight Hovered Over Tile
+					////////////////////////////////
 					board.tileInFocus = (board.findTileInFocus());
 					if (board.tileInFocus.ID != board.prevTileInFocus.ID) {
 						if (board.prevTileInFocus.ID != NULL) {
@@ -59,16 +61,16 @@ int main(int argc, char* args[]) {
 						}
 						else if (e.type == SDL_KEYUP) {
 							if (e.key.keysym.sym == SDLK_SPACE) {
-								game_controller.endTurn();
+								game_controller.endTurn(&board);
+								window.draw(board.board_tiles, 0); // Inefficient: Redraws all Tiles rather than just those which have changed
+								
 							}
 						}
 					}
-					//Apply Image to window's surface
-					//SDL_BlitSurface(gImage, NULL, gScreenSurface, NULL);
 
 					SDL_RenderPresent(window.gRenderer);
 					//Update the surface
-					//SDL_UpdateWindowSurface(gWindow);
+					//SDL_UpdateWindowSurface(window.gWindow);
 				}
 			}
 		}

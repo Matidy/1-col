@@ -1,10 +1,12 @@
-﻿Build started 04/09/2015 21:36:56.
+﻿Build started 07/09/2015 18:01:36.
      1>Project "C:\Users\Matt\Documents\Visual Studio 2010\Projects\1-col\1-col\1-col.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Creating "Debug\1-col.unsuccessfulbuild" because "AlwaysCreate" was specified.
        ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt GameController.cpp
-         GameController.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt main.cpp
+         main.cpp
+     1>c:\users\matt\documents\visual studio 2010\projects\1-col\1-col\main.cpp(33): warning C4101: 'pos_y' : unreferenced local variable
+     1>c:\users\matt\documents\visual studio 2010\projects\1-col\1-col\main.cpp(33): warning C4101: 'pos_x' : unreferenced local variable
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Matt\Documents\Visual Studio 2010\Projects\1-col\Debug\1-col.exe" /NOLOGO SDL2.lib SDL2main.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Debug\1-col.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:\Users\Matt\Documents\Visual Studio 2010\Projects\1-col\Debug\1-col.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Matt\Documents\Visual Studio 2010\Projects\1-col\Debug\1-col.lib" /MACHINE:X86 Debug\board.obj
          Debug\GameController.obj
@@ -23,4 +25,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:02.01
+Time Elapsed 00:00:00.63

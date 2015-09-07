@@ -72,7 +72,8 @@ void Window::close() {
 	SDL_Quit();
 }
 
-void Window::draw(std::vector<Tile> tiles_to_draw, int col_percent_offset) { //col updated to percent, update methods (don't like having to provide dummy 0 for base draw)
+// Draws an array of Tiles to the screen
+void Window::draw(std::vector<Tile> tiles_to_draw, int col_percent_offset) { 
 	Tile current_tile;
 	ValRGBA tile_colour;
 	int rim_offset = -10;
@@ -89,7 +90,8 @@ void Window::draw(std::vector<Tile> tiles_to_draw, int col_percent_offset) { //c
 	}
 }
 
-void Window::draw(Tile tile_to_draw, int col_percent_offset) {
+// function overload of above for single tiles 
+void Window::draw(Tile tile_to_draw, int col_percent_offset) { 
 	ValRGBA tile_colour;
 	int rim_offset = -10;
 
@@ -102,6 +104,7 @@ void Window::draw(Tile tile_to_draw, int col_percent_offset) {
 	SDL_RenderDrawRect(gRenderer, &draw_rect); //Tile Outline
 }
 
+// percentage shift of a RGBA colour
 ValRGBA Window::shiftShade(ValRGBA colour, int col_percent_offset) {
 	colour.r = colour.r*(100 + col_percent_offset)/100;
 	colour.g = colour.g*(100 + col_percent_offset)/100;
@@ -110,7 +113,6 @@ ValRGBA Window::shiftShade(ValRGBA colour, int col_percent_offset) {
 	return colour;
 }
 
-// Duplicated a lot of code in draw method, could rework draw to include highlight draw as a case
 void Window::drawHighlight(Tile tileInFocus) {
 	draw(tileInFocus, 15);
 }

@@ -1,3 +1,15 @@
+///////////////////////////////////
+// Tiles adjacent to UNOWNED Tiles
+///////////////////////////////////
+// 1. Single propagate per turn - propagate when you end your turn
+// 2. Iterate propagate until all Tiles that can be claim are claimed - propagate at the end of your opponents next turn
+
+/////////////////////////////////////
+// Tiles adjacent to opponent's Tiles
+/////////////////////////////////////
+// 1. Clear Opponent's Tile
+// 2. Single propagate per turn claiming outright (potential downside: less power in stoppping your opponent's tiles expanding)
+
 #include "board.h"
 
 Board::Board(void) {
@@ -38,7 +50,17 @@ Board::~Board(void) {
 }
 
 Tile Board::getTile(int row, int col) {
-	return board_tiles[row*hori_tiles+col];
+	Tile found_tile;
+
+	if (row < 0 || row >= vert_tiles || col < 0 || col >= hori_tiles) {
+		found_tile = NULL_tile;
+	}
+	else {
+		int index = row*hori_tiles+col;
+		found_tile = board_tiles[index];
+	}
+	
+	return found_tile;
 }
 
 // Gives the tile the mouse is currently hovering over

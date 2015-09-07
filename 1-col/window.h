@@ -3,9 +3,6 @@
 
 class Window {
 	
-	//////////////////////////////////
-	//Global variables/constants
-	//////////////////////////////////
   public:
 	//SDL data structures
 	SDL_Window* gWindow;
@@ -16,11 +13,6 @@ class Window {
 	//Window dimension constant
 	static const int WINDOW_WIDTH = 64*10;
 	static const int WINDOW_HEIGHT = 64*8;
-
-	static const int MOUSE_EVENT = 1026;
-	//////////////////////////////////
-	//Function prototypes
-	//////////////////////////////////
 
 	//constructor
 	Window(void);
