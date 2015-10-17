@@ -36,13 +36,14 @@ int main(int argc, char* args[]) {
 					///////////////////////////////////////////////
 					// Highlight Hovered Over Tile
 					////////////////////////////////
-					board.tileInFocus = (board.findTileInFocus());
-					if (board.tileInFocus.ID != board.prevTileInFocus.ID) {
-						if (board.prevTileInFocus.ID != NULL) {
-							window.drawUnhighlight(board.prevTileInFocus);
+					board.tileInFocus = board.findTileInFocus();
+					Tile* temp_tile = board.tileInFocus;
+					if (board.tileInFocus->ID != board.prevTileInFocus->ID) {
+						if (board.prevTileInFocus->ID != NULL) {
+							window.drawUnhighlight(*board.prevTileInFocus);
 						}
-						if(board.tileInFocus.ID != NULL) {
-							window.drawHighlight(board.tileInFocus);
+						if(board.tileInFocus->ID != NULL) {
+							window.drawHighlight(*board.tileInFocus);
 						}
 						board.prevTileInFocus = board.tileInFocus;
 					}
@@ -56,8 +57,8 @@ int main(int argc, char* args[]) {
 						// 1=left, 2=middle, 3=right
 						else if (e.button.type == SDL_MOUSEBUTTONUP) {
 							printf("Event type: %d\n", e.button.button);
-							game_controller.eventClick(&board, e.button);
-							window.drawHighlight(board.tileInFocus);
+							game_controller.eventClick(board.tileInFocus, e.button);
+							window.drawHighlight(*board.tileInFocus);
 						}
 						else if (e.type == SDL_KEYUP) {
 							if (e.key.keysym.sym == SDLK_SPACE) {

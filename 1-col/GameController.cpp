@@ -18,40 +18,31 @@ int GameController::init() {
 GameController::~GameController(void) {
 }
 
-void GameController::eventClick(Board *board, SDL_MouseButtonEvent mouse_event) {
-	//#################################################################################################
-	Tile * mem_tile = &board->board_tiles[board->tileInFocus.ID-1];
-	//#################################################################################################
+void GameController::eventClick(Tile* clickedTile, SDL_MouseButtonEvent mouse_event) {
+	
 
 	if (mouse_event.button == SDL_BUTTON_LEFT) {
-		if (mem_tile->owner == Tile::NEUTRAL && tile_count > 0) { // Case: Claim Tile
+		if (clickedTile->owner == Tile::NEUTRAL && tile_count > 0) { // Case: Claim Tile
 			switch(current_player) {
-				case(YELLOW): mem_tile->owner = Tile::YELLOW;
+				case(YELLOW): clickedTile->owner = Tile::YELLOW;
 							  break;
-				case(BLUE):   mem_tile->owner = Tile::BLUE;
+				case(BLUE):   clickedTile->owner = Tile::BLUE;
 							  break;
 			}
 			tile_count -= 1;
 		}
 	}
 	else if (mouse_event.button == SDL_BUTTON_RIGHT) {
-		printf("tile_owner:%d, current_player:%d\n", mem_tile->owner, current_player);
-		if (int(mem_tile->owner) == int(current_player)) {
-			mem_tile->owner = Tile::NEUTRAL;
+		printf("tile_owner:%d, current_player:%d\n", clickedTile->owner, current_player);
+		if (int(clickedTile->owner) == int(current_player)) {
+			clickedTile->owner = Tile::NEUTRAL;
 			tile_count += 1;
 		}
 	}
-	//#################################################################################################
-	board->tileInFocus = *mem_tile; // better to use pointers
-	board->prevTileInFocus = *mem_tile;
-	//#################################################################################################
+
 }
 
 void GameController::endTurn(Board *board) {
-	//#################################################################################################
-	Tile * mem_tile = &board->board_tiles[board->tileInFocus.ID-1];
-	//#################################################################################################
-
 	std::vector<int> surrounded_tiles_ids = checkAdjacency(board);
 
 	printf("{");
@@ -59,6 +50,7 @@ void GameController::endTurn(Board *board) {
 		printf("%d, ", surrounded_tiles_ids[i]);
 	}
 	printf("}\n");
+
 	int current_id;
 	for (int i=0; i<surrounded_tiles_ids.size(); i++) {
 		current_id = surrounded_tiles_ids[i];
@@ -78,11 +70,6 @@ void GameController::endTurn(Board *board) {
 					  break;
 	}
 	tile_count = 5;
-
-	//#################################################################################################
-	board->tileInFocus = *mem_tile; // better to use pointers
-	board->prevTileInFocus = *mem_tile;
-	//#################################################################################################
 }
 
 // Iterates a 3x3 grid over the board checking each Tile's boarding Tiles for

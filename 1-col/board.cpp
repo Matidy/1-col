@@ -18,8 +18,8 @@ Board::Board(void) {
 	board_height = Tile::base_height*vert_tiles;
 	
 	NULL_tile.ID = NULL;
-	tileInFocus = NULL_tile;
-	prevTileInFocus = NULL_tile;
+	tileInFocus = &NULL_tile;
+	prevTileInFocus = &NULL_tile;
 }
 
 int Board::init() {
@@ -27,7 +27,7 @@ int Board::init() {
 	int x = 0;
 	int y = 0;
 	Tile current_tile;
-	board_tiles.resize(tile_array_size); //needs to be pointers to pass objects rather than values when chaning parameters
+	board_tiles.resize(tile_array_size); //needs to be pointers to pass objects rather than values when changing parameters
 
 	////////////////////////////////////////////
 	// init tile array with positions etc.
@@ -64,13 +64,13 @@ Tile Board::getTile(int row, int col) {
 }
 
 // Gives the tile the mouse is currently hovering over
-Tile Board::findTileInFocus() {
+Tile* Board::findTileInFocus() {
 	std::vector<Tile> temp_tiles = board_tiles; //search method is destructive requiring the board tiles are copied in order to be searched
-	Tile found_tile;
+	Tile *found_tile;
 	int x, y;
 	SDL_GetMouseState(&x, &y);
 	if (x >= board_width-1 || x <= 0 || y >= board_height-1 || y <= 0) {
-		found_tile = NULL_tile;
+		found_tile = &NULL_tile;
 	}
 	else {
 		float split_bound; // boundary line divided along
@@ -104,7 +104,7 @@ Tile Board::findTileInFocus() {
 				temp_tiles.erase(temp_tiles.begin()+split_bound, temp_tiles.end());
 			}
 		}
-		found_tile = board_tiles[(temp_tiles[0].ID)-1];// ID = array position + 1
+		found_tile = &board_tiles[(temp_tiles[0].ID)-1];// ID = array position + 1
 	}
 	return found_tile;
 }

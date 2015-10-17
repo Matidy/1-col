@@ -8,8 +8,9 @@ class Board {
 	static const int hori_tiles = 10;
 	static const int vert_tiles = 8;
 
-	Tile tileInFocus;
-	Tile prevTileInFocus;
+	Tile *tileInFocus;
+	Tile *prevTileInFocus;
+
 	Tile NULL_tile;
 	std::vector<Tile> board_tiles;
 	int tile_array_size;
@@ -22,5 +23,5 @@ class Board {
 
 	void update();
 	Tile getTile(int row, int col);
-	Tile findTileInFocus();
+	Tile* findTileInFocus();
 };
