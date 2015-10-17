@@ -15,8 +15,8 @@ public:
 	int init();
 	~GameController(void);
 
-	void endTurn(Board *board);
-	std::vector<int> checkAdjacency(Board *board);
+	std::vector<Tile> endTurn(Board *board);
+	std::vector<Tile*> checkAdjacency(Board *board);
 	void eventClick(Tile* clickedTile, SDL_MouseButtonEvent mouse_event);
 };
 

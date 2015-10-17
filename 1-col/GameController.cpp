@@ -42,25 +42,26 @@ void GameController::eventClick(Tile* clickedTile, SDL_MouseButtonEvent mouse_ev
 
 }
 
-void GameController::endTurn(Board *board) {
-	std::vector<int> surrounded_tiles_ids = checkAdjacency(board);
+std::vector<Tile> GameController::endTurn(Board *board) {
+	std::vector<Tile> new_surrounded_tiles;
+	std::vector<Tile*> new_surrounded_tiles_ptr = checkAdjacency(board);
 
 	printf("{");
-	for (int i=0; i<surrounded_tiles_ids.size(); i++) {
-		printf("%d, ", surrounded_tiles_ids[i]);
+	for (int i=0; i<new_surrounded_tiles_ptr.size(); i++) {
+		printf("%d, ", *new_surrounded_tiles_ptr[i]);
 	}
 	printf("}\n");
 
-	int current_id;
-	for (int i=0; i<surrounded_tiles_ids.size(); i++) {
-		current_id = surrounded_tiles_ids[i];
+	Tile *current_tile;
+	for (int i=0; i<new_surrounded_tiles_ptr.size(); i++) {
+		current_tile = new_surrounded_tiles_ptr[i];
 		switch(current_player) {
-			case(YELLOW): board->board_tiles[current_id-1].owner = Tile::YELLOW;
+			case(YELLOW): current_tile->owner = Tile::YELLOW;
 						  break;
-			case(BLUE):	  board->board_tiles[current_id-1].owner = Tile::BLUE;
+			case(BLUE):	  current_tile->owner = Tile::BLUE;
 						  break;
 		}
-		
+		new_surrounded_tiles.push_back(*current_tile);
 	}
 
 	switch(current_player) {
@@ -70,24 +71,26 @@ void GameController::endTurn(Board *board) {
 					  break;
 	}
 	tile_count = 5;
+
+	return new_surrounded_tiles;
 }
 
 // Iterates a 3x3 grid over the board checking each Tile's boarding Tiles for
 // Condition: Tiles with 3 or more bordering Tiles belonging to the same player are automatically claimed by that player
-std::vector<int> GameController::checkAdjacency(Board *board) {
+std::vector<Tile*> GameController::checkAdjacency(Board *board) {
 	// create array with IDs of tiles that have 3 adjacent tiles belonging to the current player
-	std::vector<int> surrounded_tiles_ids; //array to keep track of which Tiles have 3 or more of thier surrounding Tiles owned by a single player.
-	Tile current_tile;
+	std::vector<Tile*> new_surrounded_tiles; //array to keep track of which Tiles have 3 or more of thier surrounding Tiles owned by a single player.
+	Tile* current_tile;
 	int k, n, sum;
 	for(int i=0; i<board->board_tiles.size(); i++) {
 		k=-1, n=-1, sum=0;
-		current_tile = board->board_tiles[i];
-		if(int(current_tile.owner) != int(current_player)) {
+		current_tile = &board->board_tiles[i];
+		if(int(current_tile->owner) != int(current_player)) {
 			for(int u=0; u<=8; u++) {
 				if(int(board->getTile(i/Board::hori_tiles+n, i%Board::hori_tiles+k).owner) == int(current_player))
-					sum += 1;// each tile that the current player owns bordering a tile adds 1 to sum
+					sum += 1; //each tile that the current player owns bordering a tile adds 1 to sum
 				if(sum >=4) {
-					surrounded_tiles_ids.push_back(current_tile.ID);
+					new_surrounded_tiles.push_back(current_tile);
 					break;
 				}
 				k += 1;
@@ -98,5 +101,5 @@ std::vector<int> GameController::checkAdjacency(Board *board) {
 			}
 		}
 	}
-	return surrounded_tiles_ids;
+	return new_surrounded_tiles;
 }

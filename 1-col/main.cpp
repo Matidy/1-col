@@ -31,6 +31,7 @@ int main(int argc, char* args[]) {
 				bool quit = false;
 				SDL_Event e;
 				int pos_x, pos_y;
+				std::vector<Tile> surrounded_tiles;
 		
 				while (!quit) {
 					///////////////////////////////////////////////
@@ -62,9 +63,9 @@ int main(int argc, char* args[]) {
 						}
 						else if (e.type == SDL_KEYUP) {
 							if (e.key.keysym.sym == SDLK_SPACE) {
-								game_controller.endTurn(&board);
-								window.draw(board.board_tiles, 0); // Inefficient: Redraws all Tiles rather than just those which have changed
-								
+								surrounded_tiles = game_controller.endTurn(&board);
+								window.draw(surrounded_tiles, 0);
+								window.drawHighlight(*board.tileInFocus);
 							}
 						}
 					}
