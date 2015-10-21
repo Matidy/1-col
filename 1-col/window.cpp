@@ -2,8 +2,6 @@
 //#include <SDL.h>
 #include "window.h"
 
-
-
 // using namespace std;
 Window::Window(void) {
 	gWindow = NULL;
@@ -82,6 +80,24 @@ void Window::draw(std::vector<Tile> tiles_to_draw, int col_percent_offset) {
 		current_tile = tiles_to_draw[i];
 		SDL_Rect draw_rect = {current_tile.pos.x, current_tile.pos.y, current_tile.width, current_tile.height};
 		tile_colour = shiftShade(current_tile.getColour(), col_percent_offset);
+		SDL_SetRenderDrawColor(gRenderer, tile_colour.r, tile_colour.g, tile_colour.b, tile_colour.a);
+		SDL_RenderFillRect(gRenderer, &draw_rect); //Tile Fill
+		tile_colour = shiftShade(tile_colour, rim_offset);
+		SDL_SetRenderDrawColor(gRenderer, tile_colour.r, tile_colour.g, tile_colour.b, tile_colour.a);
+		SDL_RenderDrawRect(gRenderer, &draw_rect); //Tile Outline
+	}
+}
+
+// function overload for array of pointers to tiles
+void Window::draw(std::set<Tile*> tiles_to_draw, int col_percent_offset) { 
+	Tile* current_tile;
+	ValRGBA tile_colour;
+	int rim_offset = -10;
+
+	for(auto it = tiles_to_draw.begin(); it!=tiles_to_draw.end(); ++it) {
+		current_tile = *it;
+		SDL_Rect draw_rect = {current_tile->pos.x, current_tile->pos.y, current_tile->width, current_tile->height};
+		tile_colour = shiftShade(current_tile->getColour(), col_percent_offset);
 		SDL_SetRenderDrawColor(gRenderer, tile_colour.r, tile_colour.g, tile_colour.b, tile_colour.a);
 		SDL_RenderFillRect(gRenderer, &draw_rect); //Tile Fill
 		tile_colour = shiftShade(tile_colour, rim_offset);

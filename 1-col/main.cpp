@@ -31,14 +31,13 @@ int main(int argc, char* args[]) {
 				bool quit = false;
 				SDL_Event e;
 				int pos_x, pos_y;
-				std::vector<Tile> surrounded_tiles;
+				std::set<Tile*> tiles_to_draw;
 		
 				while (!quit) {
 					///////////////////////////////////////////////
 					// Highlight Hovered Over Tile
 					////////////////////////////////
 					board.tileInFocus = board.findTileInFocus();
-					Tile* temp_tile = board.tileInFocus;
 					if (board.tileInFocus->ID != board.prevTileInFocus->ID) {
 						if (board.prevTileInFocus->ID != NULL) {
 							window.drawUnhighlight(*board.prevTileInFocus);
@@ -61,10 +60,25 @@ int main(int argc, char* args[]) {
 							game_controller.eventClick(board.tileInFocus, e.button);
 							window.drawHighlight(*board.tileInFocus);
 						}
-						else if (e.type == SDL_KEYUP) {
-							if (e.key.keysym.sym == SDLK_SPACE) {
-								surrounded_tiles = game_controller.endTurn(&board);
-								window.draw(surrounded_tiles, 0);
+						else if (e.type == SDL_KEYUP) { 
+							if (e.key.keysym.sym == SDLK_SPACE) { //END TURN
+								window.drawUnhighlight(*board.tileInFocus);
+								do {
+									game_controller.generateTilesToCheck(&board);
+									tiles_to_draw = game_controller.expandTerritory(&board);
+									window.draw(tiles_to_draw, 0);
+									SDL_RenderPresent(window.gRenderer);
+									SDL_Delay(500);
+								} while(!game_controller.tiles_to_check.empty());
+								game_controller.switchPlayer();
+								window.drawHighlight(*board.tileInFocus); //Need to handle the cursor being over a different tile after the territory expand phase has finished.
+							}
+							if (e.key.keysym.sym == SDLK_r) {
+								for(auto it=board.board_tiles.begin(); it!=board.board_tiles.end(); ++it) {
+									if (it->owner != Tile::Owner::UNOWNABLE) 
+										it->owner = Tile::Owner::NEUTRAL;
+								}
+								window.draw(board.board_tiles, 0);
 								window.drawHighlight(*board.tileInFocus);
 							}
 						}

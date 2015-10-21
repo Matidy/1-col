@@ -24,6 +24,7 @@ class Window {
 	void close();
 
 	void draw(std::vector<Tile> tiles_to_draw, int col_percent_offset);
+	void draw(std::set<Tile*> tiles_to_draw, int col_percent_offset);
 	void draw(Tile tile_to_draw, int col_percent_offset);
 	ValRGBA shiftShade(ValRGBA colour, int col_percent_offset);
 	void drawHighlight(Tile TileInFocus);

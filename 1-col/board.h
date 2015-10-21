@@ -22,6 +22,6 @@ class Board {
 	~Board(void);
 
 	void update();
-	Tile getTile(int row, int col);
+	Tile* getTile(int row, int col);
 	Tile* findTileInFocus();
 };

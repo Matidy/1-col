@@ -49,15 +49,15 @@ int Board::init() {
 Board::~Board(void) {
 }
 
-Tile Board::getTile(int row, int col) {
-	Tile found_tile;
+Tile* Board::getTile(int row, int col) {
+	Tile* found_tile;
 
 	if (row < 0 || row >= vert_tiles || col < 0 || col >= hori_tiles) {
-		found_tile = NULL_tile;
+		found_tile = &NULL_tile;
 	}
 	else {
 		int index = row*hori_tiles+col;
-		found_tile = board_tiles[index];
+		found_tile = &board_tiles[index];
 	}
 	
 	return found_tile;
