@@ -6,7 +6,7 @@ class Board {
 
   public:
 	static const int hori_tiles = 10;
-	static const int vert_tiles = 8;
+	static const int vert_tiles = 12;
 
 	Tile *tileInFocus;
 	Tile *prevTileInFocus;
@@ -23,5 +23,7 @@ class Board {
 
 	void update();
 	Tile* getTile(int row, int col);
+	int getUID(Tile tile);
+	int getUID(int row, int col);
 	Tile* findTileInFocus();
 };

@@ -3,13 +3,17 @@
 class Tile {
 
   public:
-	struct Position {
+	struct Vec2 {
 		int x, y;
+
+		void init(int x, int y);
 	};
 
 	enum Owner {
-		YELLOW,
+		ORANGE,
 		BLUE,
+		ORANGE_MARKED,
+		BLUE_MARKED,
 		NEUTRAL,
 		UNOWNABLE
 	};
@@ -17,15 +21,16 @@ class Tile {
 	static const int base_width = 64;
 	static const int base_height = 64;
 
-	int ID;
 	int width;
 	int height;
-	struct Position pos;
+	struct Vec2 pos;
+	struct Vec2 index;
 	Owner owner;
 
 	Tile();
 	~Tile();
 
 	void initPosition(int x, int y);
+	void initIndex(int i);
 	ValRGBA getColour();
 };

@@ -125,7 +125,7 @@ ValRGBA Window::shiftShade(ValRGBA colour, int col_percent_offset) {
 	colour.r = colour.r*(100 + col_percent_offset)/100;
 	colour.g = colour.g*(100 + col_percent_offset)/100;
 	colour.b = colour.b*(100 + col_percent_offset)/100;
-	colour.a = 0xFF;
+	colour.a = colour.a;
 	return colour;
 }
 
