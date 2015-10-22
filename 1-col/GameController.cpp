@@ -3,8 +3,8 @@
 /////////////////////////////////////////////////////
 // 1. Single propagate per turn - propagate when you end your turn.
 // 2. Call expandTerritory after evey tile is placed.
-// 2. Iterate propagate until all Tiles that can be claim are claimed - propagate at the end of your opponents next turn.
-// 3. Expand claiming - Opponent_Owned->NEUTRAL->Your_tile (each -> takes a turn).
+// 3. Iterate propagate until all Tiles that can be claim are claimed - propagate at the end of your opponents next turn.
+// 4. Expand claiming - Opponent_Owned->NEUTRAL->Your_tile (each -> takes a turn).
 /////////////////////////////////////////////////////
 //                    ADDITIONS
 /////////////////////////////////////////////////////
@@ -117,8 +117,9 @@ void GameController::generateTilesToCheck(Board *board, std::set<Tile*> claimed_
 // Broken
 std::set<Tile*> GameController::expandTerritory(Board *board) {
 	std::set<Tile*> new_surrounded_tiles = checkAdjacency(board, tiles_to_check);
-	tiles_to_check.clear();	
 	tiles_claimed_this_turn = new_surrounded_tiles;
+	tiles_to_check.clear();	
+	generateTilesToCheck(board, tiles_claimed_this_turn);
 
 	///////////////////////// DEBUG /////////////////////////
 	printf("{");

@@ -66,8 +66,8 @@ int main(int argc, char* args[]) {
 								window.drawUnhighlight(*board.tileInFocus);
 								game_controller.claimMarkedTiles();
 								window.draw(game_controller.tiles_claimed_this_turn, 0);
+								game_controller.generateTilesToCheck(&board, game_controller.tiles_claimed_this_turn);
 								do {
-									game_controller.generateTilesToCheck(&board, game_controller.tiles_claimed_this_turn);
 									tiles_to_draw = game_controller.expandTerritory(&board);
 									window.draw(tiles_to_draw, 0);
 									SDL_RenderPresent(window.gRenderer);
