@@ -10,13 +10,22 @@ public:
 		BLUE
 	};
 
+	enum Phase {
+		TILE_CLAIM,
+		TERRITORY_EXPAND
+	};
+
+	Phase phase;
+
 	Player current_player;
-	SDL_Rect end_turn_button;
 	int orange_tile_count;
 	int blue_tile_count;
 	int* current_player_tile_count;
-
-	std::set<Tile*> tiles_claimed_this_turn;
+	// Sets of the Tiles claimed by a player on their previous term.
+	std::set<Tile*> orange_prev_claimed; 
+	std::set<Tile*> blue_prev_claimed;
+	std::set<Tile*>* current_player_prev_claimed;
+	
 	std::set<Tile*> tiles_to_check;
 
 	GameController(void);

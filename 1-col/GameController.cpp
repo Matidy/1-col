@@ -8,10 +8,11 @@
 /////////////////////////////////////////////////////
 //                    ADDITIONS
 /////////////////////////////////////////////////////
-// display bar at top of the screen and bar at the bottom showing how many tiles each player has left.
-// display text on screen
-// win state
-// On mouse click set a mode of clicking base on above cases. Dragging with mouse down keeps this mode e.g. click on an unowned tile and drag to claim multiple tiles
+// -display bar at top of the screen and bar at the bottom showing how many tiles each player has left.
+// -display text on screen
+// -win state
+// -On mouse click set bool. On mouse release unset bool. While bool is set,
+//  trigger clickEvent(left_mouse) every time board->tileInFocus changes. i.e. implementation of click and drag to claim multiple tiles
 /////////////////////////////////////////////////////
 
 #include "GameController.h"
@@ -22,8 +23,10 @@ GameController::GameController(void) {
 }
 
 int GameController::init() {
+	phase = TILE_CLAIM;
 	current_player = ORANGE;
 	current_player_tile_count = &orange_tile_count;
+	current_player_prev_claimed = &orange_prev_claimed;
 	return 1;
 }
 
@@ -41,20 +44,20 @@ void GameController::eventClick(Tile* clickedTile, SDL_MouseButtonEvent mouse_ev
 							  break;
 			}
 			*current_player_tile_count -= 1;
-			tiles_claimed_this_turn.insert(clickedTile);
+			current_player_prev_claimed->insert(clickedTile);
 		}
 	}
 	else if (mouse_event.button == SDL_BUTTON_RIGHT) {
-		if (tiles_claimed_this_turn.find(clickedTile) != tiles_claimed_this_turn.end()) {
+		if (current_player_prev_claimed->find(clickedTile) != current_player_prev_claimed->end()) {
 			clickedTile->owner = Tile::NEUTRAL;
 			*current_player_tile_count += 1;
-			tiles_claimed_this_turn.erase(clickedTile);
+			current_player_prev_claimed->erase(clickedTile);
 		}
 	}
 
 	///////////////////////// DEBUG /////////////////////////
 	printf("Claimed: {");
-	for (auto it=tiles_claimed_this_turn.begin(); it!=tiles_claimed_this_turn.end(); ++it) {
+	for (auto it=current_player_prev_claimed->begin(); it!=current_player_prev_claimed->end(); ++it) {
 		printf("(%d, %d), ", (**it).index.x, (**it).index.y);
 	}
 	printf("}\n");
@@ -62,7 +65,7 @@ void GameController::eventClick(Tile* clickedTile, SDL_MouseButtonEvent mouse_ev
 }
 
 void GameController::claimMarkedTiles() {
-	for(auto it=tiles_claimed_this_turn.begin(); it!=tiles_claimed_this_turn.end(); ++it) {
+	for(auto it=current_player_prev_claimed->begin(); it!=current_player_prev_claimed->end(); ++it) {
 		switch(current_player) {
 			case(ORANGE): (**it).owner = Tile:: ORANGE;
 						  break;
@@ -76,13 +79,14 @@ void GameController::switchPlayer() {
 	switch(current_player) {
 		case(ORANGE): current_player = BLUE;
 					  current_player_tile_count = &blue_tile_count;
+					  current_player_prev_claimed = &blue_prev_claimed;
 					  break;
 		case(BLUE):   current_player = ORANGE;
 					  current_player_tile_count = &orange_tile_count;
+					  current_player_prev_claimed = &orange_prev_claimed;
 					  break;
 	}
 	*current_player_tile_count += 5;
-	tiles_claimed_this_turn.clear();
 }
 
 // Rewrite this for general case - needed for adding tiles adjacent to those returned from check adjacency to tile_to_check for t+1 expandTerritory call
@@ -114,12 +118,11 @@ void GameController::generateTilesToCheck(Board *board, std::set<Tile*> claimed_
 }
 
 // Current expansion rule: tiles which have 5 or more of your tiles boardering them become yours. 
-// Broken
+// TO-DO: MAKE checkAdjacenecy and generateTilesToCheck destructive.
 std::set<Tile*> GameController::expandTerritory(Board *board) {
 	std::set<Tile*> new_surrounded_tiles = checkAdjacency(board, tiles_to_check);
-	tiles_claimed_this_turn = new_surrounded_tiles;
 	tiles_to_check.clear();	
-	generateTilesToCheck(board, tiles_claimed_this_turn);
+	generateTilesToCheck(board, new_surrounded_tiles);
 
 	///////////////////////// DEBUG /////////////////////////
 	printf("{");
@@ -143,8 +146,8 @@ std::set<Tile*> GameController::expandTerritory(Board *board) {
 	return new_surrounded_tiles;
 }
 
-// Iterates a 3x3 grid over the board checking each Tile's boarding Tiles for
-// Condition: Tiles with 3 or more bordering Tiles belonging to the same player are automatically claimed by that player
+// Iterates a 3x3 grid over the board checking each Tile's boarding Tiles.
+// Condition: Tiles with 5 or more bordering Tiles belonging to the same player are automatically claimed by that player.
 std::set<Tile*> GameController::checkAdjacency(Board *board, std::set<Tile*> tiles_to_check) {
 	// create array with IDs of tiles that have 3 adjacent tiles belonging to the current player
 	std::set<Tile*> new_surrounded_tiles; //array to keep track of which Tiles have 3 or more of thier surrounding Tiles owned by a single player.
