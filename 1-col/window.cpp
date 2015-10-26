@@ -1,8 +1,5 @@
-//Using SDL and standard IO
-//#include <SDL.h>
 #include "window.h"
 
-// using namespace std;
 Window::Window(void) {
 	gWindow = NULL;
 	gScreenSurface = NULL;
@@ -10,12 +7,10 @@ Window::Window(void) {
 	gRenderer = NULL;
 }
 
-//////////////////////////////////
-//Function Implementations
-//////////////////////////////////
 
+// Function Implementations
+//////////////////////////////////
 bool Window::init() {
-
 	bool success = false;
 
 	//Initialize SDL
@@ -45,8 +40,7 @@ bool Window::init() {
 	return success;
 }
 
-bool Window::loadMedia()
-{
+bool Window::loadMedia() {
     //Loading success flag
     bool success = true;
 

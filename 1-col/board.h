@@ -5,8 +5,8 @@
 class Board {
 
   public:
-	static const int hori_tiles = 10;
-	static const int vert_tiles = 12;
+	static const int hori_tiles = 9;
+	static const int vert_tiles = 9;
 
 	Tile *tileInFocus;
 	Tile *prevTileInFocus;
@@ -16,6 +16,7 @@ class Board {
 	int tile_array_size;
 	int board_width;
 	int board_height;
+	int claimable_tiles;
 
 	Board(void);
 	int init();

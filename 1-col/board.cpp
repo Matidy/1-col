@@ -4,6 +4,7 @@ Board::Board(void) {
 	tile_array_size = hori_tiles*vert_tiles;
 	board_width = Tile::base_width*hori_tiles;
 	board_height = Tile::base_height*vert_tiles;
+	claimable_tiles = tile_array_size;
 	
 	NULL_tile.index.init(0, 0);
 	tileInFocus = &NULL_tile;
@@ -29,6 +30,9 @@ int Board::init() {
 		board_tiles[i].index.init(i/hori_tiles+1, i%hori_tiles+1);
 
 		x += current_tile.width;
+
+		if (current_tile.owner == Tile::UNOWNABLE) 
+			--claimable_tiles;
 	}
 	return 1;
 }

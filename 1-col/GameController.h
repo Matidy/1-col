@@ -7,15 +7,20 @@ public:
 
 	enum Player {
 		ORANGE,
-		BLUE
+		BLUE,
+		NONE
 	};
 
 	enum Phase {
 		TILE_CLAIM,
-		TERRITORY_EXPAND
+		TERRITORY_EXPAND,
+		GAME_END
 	};
 
 	Phase phase;
+	int unclaimed_tiles;
+	int claimed_by_orange;
+	int claimed_by_blue;
 
 	Player current_player;
 	int orange_tile_count;
@@ -29,12 +34,15 @@ public:
 	std::set<Tile*> tiles_to_check;
 
 	GameController(void);
-	int init();
+	int init(Board board);
 	~GameController(void);
 
+	void reset();
 	void eventClick(Tile* clickedTile, SDL_MouseButtonEvent mouse_event);
 	void claimMarkedTiles();
 	void switchPlayer();
+	void claimTile(Player current_player, Tile* tile_to_claim);
+	Player getOtherPlayer (Player player);
 	void generateTilesToCheck(Board *board, std::set<Tile*> claimed_tiles);
 	std::set<Tile*> expandTerritory(Board *board);
 	std::set<Tile*> checkAdjacency(Board *board, std::set<Tile*> tiles_to_check);
