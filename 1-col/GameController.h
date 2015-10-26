@@ -26,7 +26,7 @@ public:
 	int orange_tile_count;
 	int blue_tile_count;
 	int* current_player_tile_count;
-	// Sets of the Tiles claimed by a player on their previous term.
+	// Sets of tiles claimed on each player's most recent turn.
 	std::set<Tile*> orange_prev_claimed; 
 	std::set<Tile*> blue_prev_claimed;
 	std::set<Tile*>* current_player_prev_claimed;

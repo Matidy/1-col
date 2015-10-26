@@ -1,5 +1,8 @@
 #include "window.h"
 
+const Uint32 FRAME_RATE = 60; //Currently frame rate = 2*FRAME_RATE
+const float MINIMUM_FRAME_DURATION = 1000.0f/FRAME_RATE;
+
 int main(int argc, char* args[]) {
 	Window window;
 
@@ -31,8 +34,30 @@ int main(int argc, char* args[]) {
 				SDL_Event e;
 				int pos_x, pos_y; //UNUSED: Maybe move SDL out to a higher level?
 				std::set<Tile*> tiles_to_draw;
+				Uint32 start_time = SDL_GetTicks();
+				Uint32 current_time = start_time;
+				Uint32 time_last_frame;
+				Uint32 time_between_frames;
+				
+				int counted_frames = 0;
 		
 				while (!quit) {
+					// frame rate cap
+					time_last_frame = current_time;
+					current_time = SDL_GetTicks();
+					time_between_frames = current_time - time_last_frame;
+					if (time_between_frames <= MINIMUM_FRAME_DURATION)
+						SDL_Delay(MINIMUM_FRAME_DURATION - time_between_frames);
+					
+					/*
+					if (current_time - start_time >= 1000) {
+						printf("Frame Rate: %d\n", counted_frames);
+						start_time = SDL_GetTicks();
+						counted_frames = 0;
+					}
+					++counted_frames;
+					*/
+
 					switch(game_controller.phase) {
 
 /*-->*/				case GameController::TILE_CLAIM:
@@ -101,7 +126,8 @@ int main(int argc, char* args[]) {
 						}
 						break;
 					
-					case GameController::GAME_END:
+/*-->*/				case GameController::GAME_END:
+
 						GameController::Player winner;
 						if (game_controller.claimed_by_orange - game_controller.claimed_by_blue > 0) 
 							winner = GameController::ORANGE;
@@ -139,6 +165,7 @@ int main(int argc, char* args[]) {
 						break;
 					}
 					SDL_RenderPresent(window.gRenderer);
+				
 					//Update the surface
 					//SDL_UpdateWindowSurface(window.gWindow);
 				}
