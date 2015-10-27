@@ -1,29 +1,17 @@
-///////////////////////////////////
-// Tiles adjacent to UNOWNED Tiles
-///////////////////////////////////
-// 1. Single propagate per turn - propagate when you end your turn
-// 2. Iterate propagate until all Tiles that can be claim are claimed - propagate at the end of your opponents next turn
-
-/////////////////////////////////////
-// Tiles adjacent to opponent's Tiles
-/////////////////////////////////////
-// 1. Clear Opponent's Tile
-// 2. Single propagate per turn claiming outright (potential downside: less power in stoppping your opponent's tiles expanding)
-
 #include "board.h"
 
 Board::Board(void) {
 	tile_array_size = hori_tiles*vert_tiles;
 	board_width = Tile::base_width*hori_tiles;
 	board_height = Tile::base_height*vert_tiles;
+	claimable_tiles = tile_array_size;
 	
-	NULL_tile.ID = NULL;
+	NULL_tile.index.init(0, 0);
 	tileInFocus = &NULL_tile;
 	prevTileInFocus = &NULL_tile;
 }
 
 int Board::init() {
-
 	int x = 0;
 	int y = 0;
 	Tile current_tile;
@@ -38,10 +26,13 @@ int Board::init() {
 			x = 0;
 			y += current_tile.height;
 		}
-		board_tiles[i].initPosition(x, y);
-		board_tiles[i].ID = i+1; // Set unique ID by loop counter (start at 1 as 0 is used for NULL)
+		board_tiles[i].pos.init(x, y);
+		board_tiles[i].index.init(i/hori_tiles+1, i%hori_tiles+1);
 
 		x += current_tile.width;
+
+		if (current_tile.owner == Tile::UNOWNABLE) 
+			--claimable_tiles;
 	}
 	return 1;
 }
@@ -49,18 +40,27 @@ int Board::init() {
 Board::~Board(void) {
 }
 
-Tile Board::getTile(int row, int col) {
-	Tile found_tile;
+Tile* Board::getTile(int row, int col) {
+	Tile* found_tile;
 
-	if (row < 0 || row >= vert_tiles || col < 0 || col >= hori_tiles) {
-		found_tile = NULL_tile;
+	if (row < 1 || row > vert_tiles || col < 1 || col > hori_tiles) {
+		found_tile = &NULL_tile;
 	}
 	else {
-		int index = row*hori_tiles+col;
-		found_tile = board_tiles[index];
+		int index = getUID(row, col)-1;
+		found_tile = &board_tiles[index];
 	}
 	
 	return found_tile;
+}
+
+int Board::getUID(Tile tile) {
+	Tile::Vec2 tile_index = tile.index;
+	return (tile_index.x-1)*hori_tiles+tile_index.y;
+}
+
+int Board::getUID(int row, int col) {
+	return (row-1)*hori_tiles+col;
 }
 
 // Gives the tile the mouse is currently hovering over
@@ -104,7 +104,7 @@ Tile* Board::findTileInFocus() {
 				temp_tiles.erase(temp_tiles.begin()+split_bound, temp_tiles.end());
 			}
 		}
-		found_tile = &board_tiles[(temp_tiles[0].ID)-1];// ID = array position + 1
+		found_tile = getTile(temp_tiles[0].index.x, temp_tiles[0].index.y);
 	}
 	return found_tile;
 }

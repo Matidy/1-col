@@ -1,10 +1,5 @@
-//Using SDL and standard IO
-//#include <SDL.h>
 #include "window.h"
 
-
-
-// using namespace std;
 Window::Window(void) {
 	gWindow = NULL;
 	gScreenSurface = NULL;
@@ -12,12 +7,7 @@ Window::Window(void) {
 	gRenderer = NULL;
 }
 
-//////////////////////////////////
-//Function Implementations
-//////////////////////////////////
-
 bool Window::init() {
-
 	bool success = false;
 
 	//Initialize SDL
@@ -32,7 +22,7 @@ bool Window::init() {
 		}
 		else {
 			//Create renderer for window
-			gRenderer = SDL_CreateRenderer( gWindow, -1, SDL_RENDERER_ACCELERATED );
+			gRenderer = SDL_CreateRenderer(gWindow, -1, SDL_RENDERER_ACCELERATED);
 			if(gRenderer == NULL) {
 				printf( "Renderer could not be created! SDL Error: %s\n", SDL_GetError() );
 				success = false;
@@ -45,22 +35,6 @@ bool Window::init() {
 	}
 
 	return success;
-}
-
-bool Window::loadMedia()
-{
-    //Loading success flag
-    bool success = true;
-
-    //Load image
-    gImage = SDL_LoadBMP("Resource/city_night.bmp");
-    if(gImage == NULL)
-    {
-        printf("Unable to load image %s! SDL Error: %s\n", "Resource/city_night.bmp", SDL_GetError());
-        success = false;
-    }
-
-    return success;
 }
 
 void Window::close() {
@@ -90,6 +64,24 @@ void Window::draw(std::vector<Tile> tiles_to_draw, int col_percent_offset) {
 	}
 }
 
+// function overload for array of pointers to tiles
+void Window::draw(std::set<Tile*> tiles_to_draw, int col_percent_offset) { 
+	Tile* current_tile;
+	ValRGBA tile_colour;
+	int rim_offset = -10;
+
+	for(auto it = tiles_to_draw.begin(); it!=tiles_to_draw.end(); ++it) {
+		current_tile = *it;
+		SDL_Rect draw_rect = {current_tile->pos.x, current_tile->pos.y, current_tile->width, current_tile->height};
+		tile_colour = shiftShade(current_tile->getColour(), col_percent_offset);
+		SDL_SetRenderDrawColor(gRenderer, tile_colour.r, tile_colour.g, tile_colour.b, tile_colour.a);
+		SDL_RenderFillRect(gRenderer, &draw_rect); //Tile Fill
+		tile_colour = shiftShade(tile_colour, rim_offset);
+		SDL_SetRenderDrawColor(gRenderer, tile_colour.r, tile_colour.g, tile_colour.b, tile_colour.a);
+		SDL_RenderDrawRect(gRenderer, &draw_rect); //Tile Outline
+	}
+}
+
 // function overload of above for single tiles 
 void Window::draw(Tile tile_to_draw, int col_percent_offset) { 
 	ValRGBA tile_colour;
@@ -109,7 +101,7 @@ ValRGBA Window::shiftShade(ValRGBA colour, int col_percent_offset) {
 	colour.r = colour.r*(100 + col_percent_offset)/100;
 	colour.g = colour.g*(100 + col_percent_offset)/100;
 	colour.b = colour.b*(100 + col_percent_offset)/100;
-	colour.a = 0xFF;
+	colour.a = colour.a;
 	return colour;
 }
 
