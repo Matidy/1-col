@@ -1,31 +1,41 @@
-﻿Build started 26/10/2015 12:08:00.
+﻿Build started 27/10/2015 13:13:23.
      1>Project "C:\Users\Matt\Documents\Visual Studio 2010\Projects\1-col\1-col\1-col.vcxproj" on node 2 (build target(s)).
      1>InitializeBuildStatus:
          Creating "Debug\1-col.unsuccessfulbuild" because "AlwaysCreate" was specified.
        ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt main.cpp window.cpp
-         window.cpp
-         main.cpp
-     1>c:\users\matt\documents\visual studio 2010\projects\1-col\1-col\main.cpp(50): warning C4244: 'argument' : conversion from 'const float' to 'Uint32', possible loss of data
-     1>c:\users\matt\documents\visual studio 2010\projects\1-col\1-col\main.cpp(35): warning C4101: 'pos_y' : unreferenced local variable
-     1>c:\users\matt\documents\visual studio 2010\projects\1-col\1-col\main.cpp(35): warning C4101: 'pos_x' : unreferenced local variable
+         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc100.pdb" /Gd /TP /analyze- /errorReport:prompt GameController.cpp board.cpp main.cpp window.cpp
+         GameController.cpp
+     1>c:\users\matt\documents\visual studio 2010\projects\1-col\1-col\gamecontroller.h(35): error C2061: syntax error : identifier 'SDL_MouseButtonEvent'
+     1>c:\users\matt\documents\visual studio 2010\projects\1-col\1-col\gamecontroller.cpp(51): error C2061: syntax error : identifier 'SDL_MouseButtonEvent'
+     1>c:\users\matt\documents\visual studio 2010\projects\1-col\1-col\gamecontroller.cpp(53): error C2065: 'mouse_event' : undeclared identifier
+     1>c:\users\matt\documents\visual studio 2010\projects\1-col\1-col\gamecontroller.cpp(53): error C2228: left of '.button' must have class/struct/union
+                 type is ''unknown-type''
+     1>c:\users\matt\documents\visual studio 2010\projects\1-col\1-col\gamecontroller.cpp(53): error C2065: 'SDL_BUTTON_LEFT' : undeclared identifier
+     1>c:\users\matt\documents\visual studio 2010\projects\1-col\1-col\gamecontroller.cpp(65): error C2065: 'mouse_event' : undeclared identifier
+     1>c:\users\matt\documents\visual studio 2010\projects\1-col\1-col\gamecontroller.cpp(65): error C2228: left of '.button' must have class/struct/union
+                 type is ''unknown-type''
+     1>c:\users\matt\documents\visual studio 2010\projects\1-col\1-col\gamecontroller.cpp(65): error C2065: 'SDL_BUTTON_RIGHT' : undeclared identifier
          Generating Code...
-       Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 10.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Matt\Documents\Visual Studio 2010\Projects\1-col\Debug\1-col.exe" /NOLOGO SDL2.lib SDL2main.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /ManifestFile:"Debug\1-col.exe.intermediate.manifest" /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /DEBUG /PDB:"C:\Users\Matt\Documents\Visual Studio 2010\Projects\1-col\Debug\1-col.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Matt\Documents\Visual Studio 2010\Projects\1-col\Debug\1-col.lib" /MACHINE:X86 Debug\board.obj
-         Debug\GameController.obj
-         Debug\main.obj
-         Debug\tile.obj
-         Debug\window.obj
-         LINK : C:\Users\Matt\Documents\Visual Studio 2010\Projects\1-col\Debug\1-col.exe not found or not built by the last incremental link; performing full link
-     1>MSVCRTD.lib(cinitexe.obj) : warning LNK4098: defaultlib 'msvcrt.lib' conflicts with use of other libs; use /NODEFAULTLIB:library
-         1-col.vcxproj -> C:\Users\Matt\Documents\Visual Studio 2010\Projects\1-col\Debug\1-col.exe
-       Manifest:
-         C:\Program Files (x86)\Microsoft SDKs\Windows\v7.0A\bin\mt.exe /nologo /verbose /outputresource:"C:\Users\Matt\Documents\Visual Studio 2010\Projects\1-col\Debug\1-col.exe;#1" /manifest "Debug\1-col.exe.intermediate.manifest"
-       FinalizeBuildStatus:
-         Deleting file "Debug\1-col.unsuccessfulbuild".
-         Touching "Debug\1-col.lastbuildstate".
-     1>Done Building Project "C:\Users\Matt\Documents\Visual Studio 2010\Projects\1-col\1-col\1-col.vcxproj" (build target(s)).
+         Compiling...
+         board.cpp
+     1>c:\users\matt\documents\visual studio 2010\projects\1-col\1-col\board.cpp(71): error C3861: 'SDL_GetMouseState': identifier not found
+     1>c:\users\matt\documents\visual studio 2010\projects\1-col\1-col\board.cpp(86): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
+     1>c:\users\matt\documents\visual studio 2010\projects\1-col\1-col\board.cpp(90): warning C4244: '=' : conversion from 'float' to 'int', possible loss of data
+     1>c:\users\matt\documents\visual studio 2010\projects\1-col\1-col\board.cpp(101): warning C4244: 'argument' : conversion from 'float' to '__w64 int', possible loss of data
+     1>c:\users\matt\documents\visual studio 2010\projects\1-col\1-col\board.cpp(104): warning C4244: 'argument' : conversion from 'float' to '__w64 int', possible loss of data
+         Generating Code...
+         Compiling...
+         main.cpp
+     1>c:\users\matt\documents\visual studio 2010\projects\1-col\1-col\gamecontroller.h(35): error C2061: syntax error : identifier 'SDL_MouseButtonEvent'
+     1>c:\users\matt\documents\visual studio 2010\projects\1-col\1-col\main.cpp(50): warning C4244: 'argument' : conversion from 'const float' to 'Uint32', possible loss of data
+     1>c:\users\matt\documents\visual studio 2010\projects\1-col\1-col\main.cpp(86): error C2660: 'GameController::eventClick' : function does not take 2 arguments
+         Generating Code...
+         Compiling...
+         window.cpp
+     1>c:\users\matt\documents\visual studio 2010\projects\1-col\1-col\gamecontroller.h(35): error C2061: syntax error : identifier 'SDL_MouseButtonEvent'
+         Generating Code...
+     1>Done Building Project "C:\Users\Matt\Documents\Visual Studio 2010\Projects\1-col\1-col\1-col.vcxproj" (build target(s)) -- FAILED.
 
-Build succeeded.
+Build FAILED.
 
-Time Elapsed 00:00:00.87
+Time Elapsed 00:00:01.24

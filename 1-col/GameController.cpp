@@ -117,12 +117,6 @@ void GameController::claimTile(Player current_player, Tile* tile_to_claim) {
 	}
 	
 	if(!already_owned) --unclaimed_tiles;
-		
-	printf("\nPhase: %d\n\n", phase);
-
-	///////////////////////// DEBUG /////////////////////////
-	printf("Unclaimed: %d\nOrange: %d\nBlue: %d\n", unclaimed_tiles, claimed_by_orange, claimed_by_blue);
-	///////////////////////// DEBUG /////////////////////////
 }
 
 GameController::Player GameController::getOtherPlayer (Player player) {
@@ -166,7 +160,6 @@ void GameController::generateTilesToCheck(Board *board, std::set<Tile*> claimed_
 }
 
 // Current expansion rule: tiles which have 5 or more of your tiles boardering them become yours. 
-// TO-DO: MAKE checkAdjacenecy and generateTilesToCheck destructive.
 std::set<Tile*> GameController::expandTerritory(Board *board) {
 	std::set<Tile*> new_surrounded_tiles = checkAdjacency(board, tiles_to_check);
 	tiles_to_check.clear();	
@@ -187,8 +180,7 @@ std::set<Tile*> GameController::expandTerritory(Board *board) {
 	return new_surrounded_tiles;
 }
 
-// Iterates a 3x3 grid over the board checking each Tile's boardering Tiles.
-// Condition: Tiles with 5 or more bordering Tiles belonging to the same player are automatically claimed by that player.
+// Iterates a 3x3 grid over the board checking who owns each Tile's boardering Tiles.
 std::set<Tile*> GameController::checkAdjacency(Board *board, std::set<Tile*> tiles_to_check) {
 	// create array with IDs of tiles that have 3 adjacent tiles belonging to the current player
 	std::set<Tile*> new_surrounded_tiles; //array to keep track of which Tiles have 3 or more of thier surrounding Tiles owned by a single player.

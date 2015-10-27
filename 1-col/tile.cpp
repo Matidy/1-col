@@ -7,7 +7,6 @@ Tile::Tile() {
 }
 
 Tile::~Tile() {
-
 }
 
 void Tile::Vec2::init(int x, int y) {

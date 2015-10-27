@@ -22,9 +22,11 @@ class Board {
 	int init();
 	~Board(void);
 
-	void update();
 	Tile* getTile(int row, int col);
 	int getUID(Tile tile);
 	int getUID(int row, int col);
 	Tile* findTileInFocus();
+
+  private:
+
 };

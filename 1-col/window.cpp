@@ -7,9 +7,6 @@ Window::Window(void) {
 	gRenderer = NULL;
 }
 
-
-// Function Implementations
-//////////////////////////////////
 bool Window::init() {
 	bool success = false;
 
@@ -38,21 +35,6 @@ bool Window::init() {
 	}
 
 	return success;
-}
-
-bool Window::loadMedia() {
-    //Loading success flag
-    bool success = true;
-
-    //Load image
-    gImage = SDL_LoadBMP("Resource/city_night.bmp");
-    if(gImage == NULL)
-    {
-        printf("Unable to load image %s! SDL Error: %s\n", "Resource/city_night.bmp", SDL_GetError());
-        success = false;
-    }
-
-    return success;
 }
 
 void Window::close() {

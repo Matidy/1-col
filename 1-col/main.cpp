@@ -28,8 +28,9 @@ int main(int argc, char* args[]) {
 				// Draw initial board state to screen
 				window.draw(board.board_tiles, 0);
 
-				///// Main Loop
-				////////////////////
+				///////////////////////////
+				///		 Main Loop      ///
+				///////////////////////////
 				bool quit = false;
 				SDL_Event e;
 				int pos_x, pos_y; //UNUSED: Maybe move SDL out to a higher level?
@@ -42,7 +43,7 @@ int main(int argc, char* args[]) {
 				int counted_frames = 0;
 		
 				while (!quit) {
-					// frame rate cap
+					/// Frame Rate Cap ///
 					time_last_frame = current_time;
 					current_time = SDL_GetTicks();
 					time_between_frames = current_time - time_last_frame;
@@ -62,8 +63,7 @@ int main(int argc, char* args[]) {
 
 /*-->*/				case GameController::TILE_CLAIM:
 
-						///// Highlight Hovered Over Tile
-						////////////////////////////////////
+						/// Highlight Hovered Over Tile ///
 						board.tileInFocus = board.findTileInFocus();
 						if (board.getUID(*board.tileInFocus) != board.getUID(*board.prevTileInFocus)) {
 							if (board.getUID(*board.prevTileInFocus) != 0) { // 0->Invalid(NULL)
@@ -75,13 +75,11 @@ int main(int argc, char* args[]) {
 							board.prevTileInFocus = board.tileInFocus;
 						}
 					
-						///// User Event Handling
-						////////////////////////////////
+						/// User Event Handling ///
 						while (SDL_PollEvent(&e) != 0) {       
 							if (e.type == SDL_QUIT) {
 								quit = true;
 							}
-							// 1=left, 2=middle, 3=right
 							else if (e.button.type == SDL_MOUSEBUTTONUP) {
 								game_controller.eventClick(board.tileInFocus, e.button);
 								window.drawHighlight(*board.tileInFocus);
@@ -128,6 +126,7 @@ int main(int argc, char* args[]) {
 					
 /*-->*/				case GameController::GAME_END:
 
+						/// Highlight Winner's Tiles ///
 						GameController::Player winner;
 						if (game_controller.claimed_by_orange - game_controller.claimed_by_blue > 0) 
 							winner = GameController::ORANGE;
@@ -145,6 +144,7 @@ int main(int argc, char* args[]) {
 							}
 						}
 
+						/// User Event Handling ///
 						while (SDL_PollEvent(&e) != 0) {       
 							if (e.type == SDL_QUIT) {
 								quit = true;
@@ -165,9 +165,6 @@ int main(int argc, char* args[]) {
 						break;
 					}
 					SDL_RenderPresent(window.gRenderer);
-				
-					//Update the surface
-					//SDL_UpdateWindowSurface(window.gWindow);
 				}
 			}
 		}
